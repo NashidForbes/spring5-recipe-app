@@ -36,6 +36,18 @@ public class Category implements Serializable {
 	// ----------- >>
 	private Set<String> departmentName = new HashSet<>();
 
+	@ManyToMany(mappedBy = "categories")
+/*	@JoinTable(name = "category_recipes", joinColumns = {@JoinColumn(name =
+			"category_id")}, inverseJoinColumns = {@JoinColumn(name = "recipe_id")})*/
+	// ----------- << attribute.annotations@AAAAAAF3ozs6oyR5BEI= >>
+    // *****FOR ABOVE ANNOTATION****
+	// to avoid generating redundant join sql tables when doing
+	// bi-directional
+	// many to many
+    // relationships.  Use the "@ManyToMany(MappedBy = <other class join field>)".
+	// ----------- >>
+	private Set<Recipe> recipes = new HashSet<>();
+
 	// ----------- << getId.annotations@AAAAAAF3mjyVLTsRaMk= >>
 	// ----------- >>
 	public Long getId(){
@@ -44,6 +56,10 @@ public class Category implements Serializable {
 
 	public Set<String> getDepartmentName() {
 		return departmentName;
+	}
+
+	public Set<Recipe> getRecipes() {
+		return recipes;
 	}
 
 	// ----------- << equals.annotations@AAAAAAF3mjyVLTsRaMk= >>

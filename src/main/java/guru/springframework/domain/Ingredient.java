@@ -52,7 +52,7 @@ public class Ingredient implements Serializable {
 	private Recipe recipe;
 
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinColumn(name = "unitOfMeasure_id")
 	// ----------- << attribute.annotations@AAAAAAF3n+nmfNXQJ9g= >>
 	// ----------- >>

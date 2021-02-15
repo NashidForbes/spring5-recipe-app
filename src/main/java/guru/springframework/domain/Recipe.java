@@ -76,27 +76,28 @@ public class Recipe implements Serializable {
 	private Byte[] image;
 
 	@ManyToMany
-	@JoinTable(name = "recipe(category)", joinColumns = {@JoinColumn(name = "recipe_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
+	@JoinTable(name = "recipe_categories", joinColumns = {@JoinColumn(name = "recipe_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
 	// ----------- << attribute.annotations@AAAAAAF3mkZbVj6xII4= >>
 	// ----------- >>
-	private Set<Category> category = new HashSet<>();
+	private Set<Category> categories = new HashSet<>();
 
 	@NotNull
-	@OneToOne
-	@JoinColumn(name = "notes_id")
+	@OneToOne(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "notes_id")
 	// ----------- << attribute.annotations@AAAAAAF3mlRU/kDPkoU= >>
 	// ----------- >>
 	private Notes notes;
 
-	// ----------- << attribute.annotations@AAAAAAF3mmf/b161DUk= >>
-	// ----------- >>
-	private Difficulty difficulty;
-
-	@OneToMany
-	@JoinColumn(name = "recipe_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+	//@JoinColumn(name = "recipe_id")
 	// ----------- << attribute.annotations@AAAAAAF3mlWNbEQ+w6Y= >>
 	// ----------- >>
-	private Set<Ingredient> ingredient = new HashSet<>();
+	private Set<Ingredient> ingredients = new HashSet<>();
+
+	// ----------- << attribute.annotations@AAAAAAF3mmf/b161DUk= >>
+	@Enumerated(value = EnumType.STRING)
+	// ----------- >>
+	private Difficulty difficulty;
 
 	// ----------- << getId.annotations@AAAAAAF3mi343CvC9nM= >>
 	// ----------- >>
@@ -132,20 +133,20 @@ public class Recipe implements Serializable {
 		return image;
 	}
 
-	public Set<Category> getCategory() {
-		return category;
+	public Set<Category> getCategories() {
+		return categories;
 	}
 
 	public Notes getNotes() {
 		return notes;
 	}
 
-	public Difficulty getDifficulty() {
-		return difficulty;
+	public Set<Ingredient> getIngredients() {
+		return ingredients;
 	}
 
-	public Set<Ingredient> getIngredient() {
-		return ingredient;
+	public Difficulty getDifficulty() {
+		return difficulty;
 	}
 
 	public void setPrepTime(Integer prepTime) {
