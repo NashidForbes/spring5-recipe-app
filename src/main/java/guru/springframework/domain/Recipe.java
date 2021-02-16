@@ -3,13 +3,13 @@
 */
 package guru.springframework.domain;
 
-import java.util.*;
-import java.time.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 // ----------- << imports@AAAAAAF3mi343CvC9nM= >>
@@ -30,6 +30,12 @@ public class Recipe implements Serializable {
 	// ----------- << version.annotations@AAAAAAF3mi343CvC9nM= >>
 	// ----------- >>
 	private Long version;
+
+	@NotNull
+	@Column(nullable = false)
+	// ----------- << attribute.annotations@AAAAAAF3mjS/GDq+erw >>
+	// ----------- >>
+	private String name;
 
 	@NotNull
 	@Column(nullable = false)
@@ -62,21 +68,22 @@ public class Recipe implements Serializable {
 	private String url;
 
 	@NotNull
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10480)
 	// ----------- << attribute.annotations@AAAAAAF3mjn8pjryxtM= >>
 	// ----------- >>
 	private String directions;
 
-	@NotNull
-	@Column(nullable = false)
+	//@NotNull
+	@Column(nullable = true)
 	// ----------- << attribute.annotations@AAAAAAF3mjtB8TsGS1o= >>
 	// for "large object" data
 	@Lob
 	// ----------- >>
 	private Byte[] image;
 
-	@ManyToMany
-	@JoinTable(name = "recipe_categories", joinColumns = {@JoinColumn(name = "recipe_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "recipe_categories", joinColumns = {@JoinColumn(name =
+			"recipe_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
 	// ----------- << attribute.annotations@AAAAAAF3mkZbVj6xII4= >>
 	// ----------- >>
 	private Set<Category> categories = new HashSet<>();
@@ -103,6 +110,10 @@ public class Recipe implements Serializable {
 	// ----------- >>
 	public Long getId(){
 		return id;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public Integer getPrepTime() {
@@ -147,6 +158,10 @@ public class Recipe implements Serializable {
 
 	public Difficulty getDifficulty() {
 		return difficulty;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setPrepTime(Integer prepTime) {
@@ -201,6 +216,13 @@ public class Recipe implements Serializable {
 		return 416;
 	}
 
-// ----------- << class.extras@AAAAAAF3mi343CvC9nM= >>
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
+
+	public void setIngredients(Set<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+	// ----------- << class.extras@AAAAAAF3mi343CvC9nM= >>
 // ----------- >>
 }

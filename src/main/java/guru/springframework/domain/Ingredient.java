@@ -8,11 +8,9 @@ import java.util.*;
 import java.time.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.*;
-
-
 // ----------- << imports@AAAAAAF3mkHRmjxf0IE= >>
 // ----------- >>
 
@@ -45,18 +43,32 @@ public class Ingredient implements Serializable {
 	private BigDecimal amount;
 
 	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "recipe_id")
+	@ManyToOne(cascade = CascadeType.ALL)
+	//@JoinColumn(name = "recipe_id")
 	// ----------- << attribute.annotations@AAAAAAF3n4qvvK2zOvk= >>
 	// ----------- >>
 	private Recipe recipe;
 
-	@NotNull
-	@OneToOne
-	@JoinColumn(name = "unitOfMeasure_id")
+	//@NotNull
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	//@JoinColumn(name = "unitOfMeasure_id")
 	// ----------- << attribute.annotations@AAAAAAF3n+nmfNXQJ9g= >>
 	// ----------- >>
 	private UnitOfMeasure unitOfMeasure;
+
+	public Ingredient( String description,
+					   BigDecimal amount,
+					   Recipe recipe,
+					   UnitOfMeasure unitOfMeasure) {
+		this.description = description;
+		this.amount = amount;
+		this.recipe = recipe;
+		this.unitOfMeasure = unitOfMeasure;
+	}
+
+	public Ingredient() {
+
+	}
 
 	// ----------- << getId.annotations@AAAAAAF3mkHRmjxf0IE= >>
 	// ----------- >>

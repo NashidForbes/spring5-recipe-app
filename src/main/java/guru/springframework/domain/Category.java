@@ -31,12 +31,13 @@ public class Category implements Serializable {
 	// ----------- >>
 	private Long version;
 
-	@ElementCollection
+	@NotNull
+	@Column(nullable = false)
 	// ----------- << attribute.annotations@AAAAAAF3mjzmCTsVE5A= >>
 	// ----------- >>
-	private Set<String> departmentName = new HashSet<>();
+	private String departmentName;
 
-	@ManyToMany(mappedBy = "categories")
+	@ManyToMany(mappedBy="categories", cascade = CascadeType.ALL)
 /*	@JoinTable(name = "category_recipes", joinColumns = {@JoinColumn(name =
 			"category_id")}, inverseJoinColumns = {@JoinColumn(name = "recipe_id")})*/
 	// ----------- << attribute.annotations@AAAAAAF3ozs6oyR5BEI= >>
@@ -54,12 +55,20 @@ public class Category implements Serializable {
 		return id;
 	}
 
-	public Set<String> getDepartmentName() {
+	public String getDepartmentName() {
 		return departmentName;
 	}
 
 	public Set<Recipe> getRecipes() {
 		return recipes;
+	}
+
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+
+	public void setRecipes(Set<Recipe> recipes) {
+		this.recipes = recipes;
 	}
 
 	// ----------- << equals.annotations@AAAAAAF3mjyVLTsRaMk= >>
