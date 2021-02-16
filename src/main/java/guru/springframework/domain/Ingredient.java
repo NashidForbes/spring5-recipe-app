@@ -50,7 +50,7 @@ public class Ingredient implements Serializable {
 	private Recipe recipe;
 
 	//@NotNull
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	//@JoinColumn(name = "unitOfMeasure_id")
 	// ----------- << attribute.annotations@AAAAAAF3n+nmfNXQJ9g= >>
 	// ----------- >>
