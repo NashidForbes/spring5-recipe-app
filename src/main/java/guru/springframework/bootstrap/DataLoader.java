@@ -7,6 +7,7 @@ import guru.springframework.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class DataLoader implements CommandLineRunner {
     }
 
     @Override
+    // to avoid LazyInitializationException
+    @Transactional
     public void run(String... args) throws Exception {
         log.debug("Saving all loadData for bootstrap");
         recipeRepository.saveAll(loadData());
