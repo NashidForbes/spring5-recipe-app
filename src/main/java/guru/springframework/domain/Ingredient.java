@@ -11,9 +11,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.*;
+import lombok.*;
 // ----------- << imports@AAAAAAF3mkHRmjxf0IE= >>
 // ----------- >>
 
+@Data
+@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 @JsonIgnoreType
 // ----------- << class.annotations@AAAAAAF3mkHRmjxf0IE= >>
@@ -69,61 +72,6 @@ public class Ingredient implements Serializable {
 	public Ingredient() {
 
 	}
-
-	// ----------- << getId.annotations@AAAAAAF3mkHRmjxf0IE= >>
-	// ----------- >>
-	public Long getId(){
-		return id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public Recipe getRecipe() {
-		return recipe;
-	}
-
-	public UnitOfMeasure getUnitOfMeasure() {
-		return unitOfMeasure;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public void setRecipe(Recipe recipe) {
-		this.recipe = recipe;
-	}
-
-	public void setUnitOfMeasure(UnitOfMeasure unitOfMeasure) {
-		this.unitOfMeasure = unitOfMeasure;
-	}
-
-	// ----------- << equals.annotations@AAAAAAF3mkHRmjxf0IE= >>
-	// ----------- >>
-	@Override
-	public boolean equals(Object obj) {
-		if (super.equals(obj)) return true;
-		if (getId() == null) return false;
-		return obj instanceof Ingredient && (getId().equals(((Ingredient) obj).getId()));
-	}
-
-	// ----------- << hashCode.annotations@AAAAAAF3mkHRmjxf0IE= >>
-	// ----------- >>
-	@Override
-	public int hashCode() {
-		return 429;
-	}
-
-// ----------- << class.extras@AAAAAAF3mkHRmjxf0IE= >>
+	// ----------- << class.extras@AAAAAAF3mkHRmjxf0IE= >>
 // ----------- >>
 }

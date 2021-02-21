@@ -10,11 +10,12 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.*;
-
-
+import lombok.*;
 // ----------- << imports@AAAAAAF3mjyVLTsRaMk= >>
 // ----------- >>
 
+@Data
+@EqualsAndHashCode(exclude = {"recipes"})
 @Entity
 @JsonIgnoreType
 // ----------- << class.annotations@AAAAAAF3mjyVLTsRaMk= >>
@@ -48,45 +49,6 @@ public class Category implements Serializable {
     // relationships.  Use the "@ManyToMany(MappedBy = <other class join field>)".
 	// ----------- >>
 	private Set<Recipe> recipes = new HashSet<>();
-
-	// ----------- << getId.annotations@AAAAAAF3mjyVLTsRaMk= >>
-	// ----------- >>
-	public Long getId(){
-		return id;
-	}
-
-	public String getDepartmentName() {
-		return departmentName;
-	}
-
-	public Set<Recipe> getRecipes() {
-		return recipes;
-	}
-
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
-
-	public void setRecipes(Set<Recipe> recipes) {
-		this.recipes = recipes;
-	}
-
-	// ----------- << equals.annotations@AAAAAAF3mjyVLTsRaMk= >>
-	// ----------- >>
-	@Override
-	public boolean equals(Object obj) {
-		if (super.equals(obj)) return true;
-		if (getId() == null) return false;
-		return obj instanceof Category && (getId().equals(((Category) obj).getId()));
-	}
-
-	// ----------- << hashCode.annotations@AAAAAAF3mjyVLTsRaMk= >>
-	// ----------- >>
-	@Override
-	public int hashCode() {
-		return 248;
-	}
-
-// ----------- << class.extras@AAAAAAF3mjyVLTsRaMk= >>
+	// ----------- << class.extras@AAAAAAF3mjyVLTsRaMk= >>
 // ----------- >>
 }

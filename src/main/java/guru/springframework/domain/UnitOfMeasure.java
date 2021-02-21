@@ -3,6 +3,8 @@
 */
 package guru.springframework.domain;
 
+import lombok.*;
+
 import java.util.*;
 import java.time.*;
 
@@ -14,6 +16,7 @@ import java.io.Serializable;
 // ----------- << imports@AAAAAAF3mkJS5zyJlCE= >>
 // ----------- >>
 
+@Data
 @Entity
 // ----------- << class.annotations@AAAAAAF3mkJS5zyJlCE= >>
 // ----------- >>
@@ -34,37 +37,6 @@ public class UnitOfMeasure implements Serializable {
 	// ----------- << attribute.annotations@AAAAAAF3mmNgqlL9irs= >>
 	// ----------- >>
 	private String units;
-
-	// ----------- << getId.annotations@AAAAAAF3mkJS5zyJlCE= >>
-	// ----------- >>
-	public Long getId(){
-		return id;
-	}
-
-	public String getUnits() {
-		return units;
-	}
-
-	public void setUnits(String units) {
-		this.units = units;
-	}
-
-	// ----------- << equals.annotations@AAAAAAF3mkJS5zyJlCE= >>
-	// ----------- >>
-	@Override
-	public boolean equals(Object obj) {
-		if (super.equals(obj)) return true;
-		if (getId() == null) return false;
-		return obj instanceof UnitOfMeasure && (getId().equals(((UnitOfMeasure) obj).getId()));
-	}
-
-	// ----------- << hashCode.annotations@AAAAAAF3mkJS5zyJlCE= >>
-	// ----------- >>
-	@Override
-	public int hashCode() {
-		return 421;
-	}
-
-// ----------- << class.extras@AAAAAAF3mkJS5zyJlCE= >>
+	// ----------- << class.extras@AAAAAAF3mkJS5zyJlCE= >>
 // ----------- >>
 }
