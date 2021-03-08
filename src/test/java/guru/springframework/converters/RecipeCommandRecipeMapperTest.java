@@ -4,27 +4,13 @@ import guru.springframework.command.CategoryCommand;
 import guru.springframework.command.IngredientCommand;
 import guru.springframework.command.NotesCommand;
 import guru.springframework.command.RecipeCommand;
-import guru.springframework.controllers.IndexController;
 import guru.springframework.domain.*;
-import guru.springframework.services.interfaces.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RecipeCommandRecipeMapperTest {
-
-    @Mock
-    RecipeService recipeService;
-
-    @Mock
-    Model model;
-
-    IndexController indexController;
 
     public static final Long RECIPE_ID = 1L;
     public static final Integer COOK_TIME = Integer.valueOf("5");
@@ -42,12 +28,10 @@ class RecipeCommandRecipeMapperTest {
     public static final Long NOTES_ID = 9L;
 
 
-    RecipeCommandRecipeMapper converter;
+    RecipeCommandRecipeMapper converter = RecipeCommandRecipeMapper.INSTANCE;
 
     RecipeCommand recipeCommand;
     Recipe recipe;
-
-    Recipe recipeReturned;
 
     void initRecipeCommand() {
         //given
@@ -105,14 +89,12 @@ class RecipeCommandRecipeMapperTest {
         ingredient2.setId(INGRED_ID_2);
         recipe.getIngredients().add(ingredient);
         recipe.getIngredients().add(ingredient2);
+
     }
 
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
-        indexController = new IndexController(recipeService);
-
         initRecipeCommand();
         initRecipe();
     }
@@ -126,5 +108,7 @@ class RecipeCommandRecipeMapperTest {
 
     @Test
     void recipeToRecipeCommand() {
+        RecipeCommand recipeNew = converter.recipeToRecipeCommand(recipe);
+        assertNotNull(recipeNew);
     }
 }
