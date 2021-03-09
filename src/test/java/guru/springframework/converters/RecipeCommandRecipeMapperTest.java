@@ -8,6 +8,7 @@ import guru.springframework.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class RecipeCommandRecipeMapperTest {
@@ -92,7 +93,6 @@ class RecipeCommandRecipeMapperTest {
 
     }
 
-
     @BeforeEach
     void setUp() {
         initRecipeCommand();
@@ -103,12 +103,35 @@ class RecipeCommandRecipeMapperTest {
     void recipeCommandToRecipe() {
         Recipe recipeNew = converter.recipeCommandToRecipe(recipeCommand);
         assertNotNull(recipeNew);
-
+        assertEquals(RECIPE_ID, recipeNew.getId());
+        assertEquals(COOK_TIME, recipeNew.getCookTime());
+        assertEquals(PREP_TIME, recipeNew.getPrepTime());
+        assertEquals(DESCRIPTION, recipeNew.getName());
+        assertEquals(DIFFICULTY, recipeNew.getDifficulty());
+        assertEquals(DIRECTIONS, recipeNew.getDirections());
+        assertEquals(SERVINGS, recipeNew.getServings());
+        assertEquals(SOURCE, recipeNew.getSource());
+        assertEquals(URL, recipeNew.getUrl());
+        assertEquals(NOTES_ID, recipeNew.getNotes().getId());
+        assertEquals(2, recipeNew.getCategories().size());
+        assertEquals(2, recipeNew.getIngredients().size());
     }
 
     @Test
     void recipeToRecipeCommand() {
         RecipeCommand recipeNew = converter.recipeToRecipeCommand(recipe);
         assertNotNull(recipeNew);
+        assertEquals(RECIPE_ID, recipeNew.getId());
+        assertEquals(COOK_TIME, recipeNew.getCookTime());
+        assertEquals(PREP_TIME, recipeNew.getPrepTime());
+        assertEquals(DESCRIPTION, recipeNew.getName());
+        assertEquals(DIFFICULTY, recipeNew.getDifficulty());
+        assertEquals(DIRECTIONS, recipeNew.getDirections());
+        assertEquals(SERVINGS, recipeNew.getServings());
+        assertEquals(SOURCE, recipeNew.getSource());
+        assertEquals(URL, recipeNew.getUrl());
+        assertEquals(NOTES_ID, recipeNew.getNotes().getId());
+        assertEquals(2, recipeNew.getCategories().size());
+        assertEquals(2, recipeNew.getIngredients().size());
     }
 }
