@@ -91,13 +91,14 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-12" th:if="${not #lists.isEmpty(recipe.ingredients)}">
+                            <div class="col-md-12">
                                 <ul>
                                     <li th:remove="all">ingredient 1</li>
                                     <li th:remove="all">ingredient 2</li>
                                     <li th:each="ingredient : ${recipe.ingredients}"
-                                        th:text="${ingredient.unitOfMeasure.units} + ${ingredient.amount} + ${ingredient.description}">
-                                        1 Cup of milk
+                                        th:text="${(ingredient.getAmount() +
+                                        ' ' + ingredient.unitOfMeasure.getUnits() +
+                                        ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
                                     </li>
                                 </ul>
                             </div>

@@ -48,6 +48,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
+    public RecipeCommand findCommandById(long anyLong) {
+        return mapper.recipeToRecipeCommand(findById(anyLong));
+    }
+
+    @Override
+    @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand command) {
         // Not tied to Hibernate context / DB context so using the prefix detached
         Recipe detachedRecipe = mapper.recipeCommandToRecipe(command);
@@ -60,4 +66,6 @@ public class RecipeServiceImpl implements RecipeService {
         // return the saved recipe object to the web layer
         return mapper.recipeToRecipeCommand(savedRecipe);
     }
+
+
 }

@@ -7,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Component;
 
 @Mapper //TODO need to remove this and put on implementation
-@Component
 public interface RecipeCommandRecipeMapper {
 
     RecipeCommandRecipeMapper INSTANCE = Mappers.getMapper(RecipeCommandRecipeMapper.class);

@@ -90,7 +90,6 @@ public class Recipe implements Serializable {
 	// ----------- >>
 	private Set<Category> categories = new HashSet<>();
 
-	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	//@JoinColumn(name = "notes_id")
 	// ----------- << attribute.annotations@AAAAAAF3mlRU/kDPkoU= >>

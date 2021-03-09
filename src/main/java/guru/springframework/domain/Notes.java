@@ -32,7 +32,7 @@ public class Notes implements Serializable {
 	// ----------- >>
 	private Long version;
 
-	@NotNull
+	//@NotNull
 	@Column(nullable = false)
 	// ----------- << attribute.annotations@AAAAAAF3mmP6fVRQ3Tc= >>
 	// for "large object" data
@@ -40,7 +40,7 @@ public class Notes implements Serializable {
 	// ----------- >>
 	private String notes;
 
-	@NotNull
+	//@NotNull
 	@OneToOne(mappedBy = "notes")
 	// ----------- << attribute.annotations@AAAAAAF3mlRU/kDONtQ= >>
 	// ----------- >>

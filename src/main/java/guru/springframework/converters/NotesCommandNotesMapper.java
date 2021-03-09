@@ -3,6 +3,7 @@ package guru.springframework.converters;
 import guru.springframework.command.NotesCommand;
 import guru.springframework.domain.Notes;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 /*Using MapStruct to avoid manual type conversion from example:
 https://github.com/springframeworkguru/spring5-recipe-app/tree/creating-command-obj/src/main/java
@@ -11,6 +12,9 @@ https://github.com/springframeworkguru/spring5-recipe-app/tree/creating-command-
 
 @Mapper
 public interface NotesCommandNotesMapper {
+
+    NotesCommandNotesMapper INSTANCE = Mappers.getMapper(NotesCommandNotesMapper.class);
+
     Notes NotesCommandToNotes(NotesCommand notesCommand);
 
     NotesCommand NotesToNotesCommand(Notes notes);
