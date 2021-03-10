@@ -28,10 +28,10 @@ public class Recipe implements Serializable {
 	// ----------- >>
 	private Long id;
 
-	@Version
+/*	@Version
 	// ----------- << version.annotations@AAAAAAF3mi343CvC9nM= >>
 	// ----------- >>
-	private Long version;
+	private Long version;*/
 
 	@NotNull
 	@Column(nullable = false)

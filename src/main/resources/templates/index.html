@@ -36,6 +36,7 @@
                                 <th style="width: 150px;">Cook Time</th>
                                 <th style="width: 150px;">Url</th>
                                 <th style="width: 150px;">View</th>
+                                <th style="width: 150px;">Update</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -45,6 +46,7 @@
                                 <td th:text="${recipe?.cookTime}">10</td>
                                 <td th:text="${recipe?.url}">url</td>
                                 <td><a th:href="@{'/recipe/' + ${recipe?.id} + '/show/'}">View</a></td>
+                                <td><a th:href="@{'/recipe/' + ${recipe?.id} + '/update/'}">Update</a></td>
                             </tr>
                             </tbody>
                         </table>
