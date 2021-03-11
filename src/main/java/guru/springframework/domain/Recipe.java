@@ -83,7 +83,7 @@ public class Recipe implements Serializable {
 	// ----------- >>
 	private Byte[] image;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	@JoinTable(name = "recipe_categories", joinColumns = {@JoinColumn(name =
 			"recipe_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
 	// ----------- << attribute.annotations@AAAAAAF3mkZbVj6xII4= >>

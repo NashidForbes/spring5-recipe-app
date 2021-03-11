@@ -12,7 +12,7 @@ public interface RecipeCommandRecipeMapper {
     RecipeCommandRecipeMapper INSTANCE =
             Mappers.getMapper(RecipeCommandRecipeMapper.class);
 
-    @Mapping(target = "version", ignore = true)
+    //@Mapping(target = "version", ignore = true)
     Recipe recipeCommandToRecipe(RecipeCommand recipeCommand);
 
     RecipeCommand recipeToRecipeCommand(Recipe recipe);

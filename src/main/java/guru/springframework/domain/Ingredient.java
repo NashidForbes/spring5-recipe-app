@@ -46,14 +46,14 @@ public class Ingredient implements Serializable {
 	private BigDecimal amount;
 
 	@NotNull
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	//@JoinColumn(name = "recipe_id")
 	// ----------- << attribute.annotations@AAAAAAF3n4qvvK2zOvk= >>
 	// ----------- >>
 	private Recipe recipe;
 
 	//@NotNull
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToOne(fetch = FetchType.EAGER)
 	//@JoinColumn(name = "unitOfMeasure_id")
 	// ----------- << attribute.annotations@AAAAAAF3n+nmfNXQJ9g= >>
 	// ----------- >>
