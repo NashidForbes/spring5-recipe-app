@@ -2,6 +2,7 @@ package guru.springframework.converters;
 
 import guru.springframework.command.IngredientCommand;
 import guru.springframework.domain.Ingredient;
+import lombok.Data;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

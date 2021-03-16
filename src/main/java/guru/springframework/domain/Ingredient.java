@@ -33,19 +33,19 @@ public class Ingredient implements Serializable {
 	// ----------- >>
 	private Long version;
 
-	@NotNull
+	//@NotNull
 	@Column(nullable = false)
 	// ----------- << attribute.annotations@AAAAAAF3mlcl00jfzyw= >>
 	// ----------- >>
 	private String description;
 
-	@NotNull
+	//@NotNull
 	@Column(nullable = false)
 	// ----------- << attribute.annotations@AAAAAAF3mleXIEpRW6g= >>
 	// ----------- >>
 	private BigDecimal amount;
 
-	@NotNull
+	//@NotNull
 	@ManyToOne
 	//@JoinColumn(name = "recipe_id")
 	// ----------- << attribute.annotations@AAAAAAF3n4qvvK2zOvk= >>
