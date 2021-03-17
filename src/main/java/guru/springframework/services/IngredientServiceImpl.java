@@ -4,6 +4,7 @@ import guru.springframework.command.IngredientCommand;
 import guru.springframework.converters.IngredientCommandIngredientMapper;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
+import guru.springframework.repositories.UnitOfMeasureRepository;
 import guru.springframework.services.interfaces.IngredientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ public class IngredientServiceImpl implements IngredientService {
 
     public IngredientServiceImpl(
             IngredientCommandIngredientMapper ingredientCommandIngredientMapper,
-            RecipeRepository recipeRepository) {
+            RecipeRepository recipeRepository,
+            UnitOfMeasureRepository unitOfMeasureRepository) {
         this.ingredientCommandIngredientMapper = ingredientCommandIngredientMapper;
         this.recipeRepository = recipeRepository;
     }
@@ -34,13 +36,19 @@ public class IngredientServiceImpl implements IngredientService {
         Recipe recipe = recipeOptional.get();
         Optional<IngredientCommand> ingredientCommandOptional =
                 recipe.getIngredients().stream()
-                        .filter(ingredient -> ingredient!= null)
                         .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                        .filter(ingredient -> ingredient!= null)
                         .map(ingredientCommandIngredientMapper::IngredientToIngredientCommand).findFirst();
         if (!ingredientCommandOptional.isPresent()) {
             log.debug("Error ingredient id not found " + ingredientId);
             throw new RuntimeException("Error ingredient id not found " + ingredientId);
         }
+
+        // map requestId to ingredientCommand recipeId field, this is only solution
+        // I can think of for now
+        ingredientCommandOptional.get().setRecipeId(recipeId);;
+
+
         return ingredientCommandOptional.get();
     }
 }

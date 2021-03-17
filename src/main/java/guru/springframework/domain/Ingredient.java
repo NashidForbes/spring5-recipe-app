@@ -28,19 +28,19 @@ public class Ingredient implements Serializable {
 	// ----------- >>
 	private Long id;
 
-	@Version
+/*	@Version
 	// ----------- << version.annotations@AAAAAAF3mkHRmjxf0IE= >>
 	// ----------- >>
-	private Long version;
+	private Long version;*/
 
 	//@NotNull
-	@Column(nullable = false)
+	@Column
 	// ----------- << attribute.annotations@AAAAAAF3mlcl00jfzyw= >>
 	// ----------- >>
 	private String description;
 
 	//@NotNull
-	@Column(nullable = false)
+	@Column
 	// ----------- << attribute.annotations@AAAAAAF3mleXIEpRW6g= >>
 	// ----------- >>
 	private BigDecimal amount;

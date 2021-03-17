@@ -27,13 +27,13 @@ public class Notes implements Serializable {
 	// ----------- >>
 	private Long id;
 
-	@Version
+/*	@Version
 	// ----------- << version.annotations@AAAAAAF3mkKjjjyZK7o= >>
 	// ----------- >>
-	private Long version;
+	private Long version;*/
 
 	//@NotNull
-	@Column(nullable = false)
+	@Column
 	// ----------- << attribute.annotations@AAAAAAF3mmP6fVRQ3Tc= >>
 	// for "large object" data
 	@Lob

@@ -12,9 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@RunWith(SpringRunner.class)
+// runwith not needed since it relies on junit vintage dependency
+//@RunWith(SpringRunner.class)
 @SpringBootTest
 public class RecipeServiceIT {
 
@@ -34,12 +37,17 @@ public class RecipeServiceIT {
     @Test
     public void testSaveOfDescription() throws Exception {
         //given
-        Iterable<Recipe> recipes = recipeRepository.findAll();
+        List<Recipe> recipes = recipeRepository.findAll();
         Recipe testRecipe = recipes.iterator().next();
         RecipeCommand testRecipeCommand = mapper.recipeToRecipeCommand(testRecipe);
 
         //when
         testRecipeCommand.setName(NEW_DESCRIPTION);
+        // DONE org.springframework.orm.ObjectOptimisticLockingFailureException: Object of
+        // class
+        //  [guru.springframework.domain.Notes] with identifier [1]: optimistic locking failed;
+        //  nested exception is org.hibernate.StaleObjectStateException:
+        //  Row was updated or deleted by another transaction
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
 
         //then
