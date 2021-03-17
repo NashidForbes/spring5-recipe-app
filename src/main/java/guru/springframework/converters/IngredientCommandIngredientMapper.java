@@ -4,6 +4,7 @@ import guru.springframework.command.IngredientCommand;
 import guru.springframework.domain.Ingredient;
 import lombok.Data;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /*Using MapStruct to avoid manual type conversion from example:
@@ -17,6 +18,7 @@ public interface IngredientCommandIngredientMapper {
 
     Ingredient IngredientCommandToIngredient(IngredientCommand ingredientCommand);
 
+    @Mapping(source = "ingredient.recipe.id", target="recipeId")
     IngredientCommand IngredientToIngredientCommand(Ingredient ingredient);
 
 }

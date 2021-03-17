@@ -44,11 +44,6 @@ public class IngredientServiceImpl implements IngredientService {
             throw new RuntimeException("Error ingredient id not found " + ingredientId);
         }
 
-        // map requestId to ingredientCommand recipeId field, this is only solution
-        // I can think of for now
-        ingredientCommandOptional.get().setRecipeId(recipeId);;
-
-
         return ingredientCommandOptional.get();
     }
 }
