@@ -31,7 +31,7 @@ class IngredientServiceImplTest {
 
     IngredientCommandIngredientMapper ingredientCommandIngredientMapper;
 
-
+    // Use constructor to avoid null pointer exceptions
     public IngredientServiceImplTest() {
         this.ingredientCommandIngredientMapper =
                 ingredientCommandIngredientMapper.INSTANCE;
@@ -66,7 +66,7 @@ class IngredientServiceImplTest {
         Optional<Recipe> recipeOptional = Optional.of(recipe);
         when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
         //then
-        // TODO Figure the java.lang.NullPointerException
+        // DONE Figure out the java.lang.NullPointerException
         IngredientCommand ingredientCommand =
                 ingredientService.findByRecipeIdAndIngredientId(1L, 3L);
 
