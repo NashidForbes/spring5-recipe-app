@@ -16,6 +16,7 @@ public interface IngredientCommandIngredientMapper {
 
     IngredientCommandIngredientMapper INSTANCE = Mappers.getMapper(IngredientCommandIngredientMapper.class);
 
+    @Mapping(source = "recipeId", target="recipe.id")
     Ingredient IngredientCommandToIngredient(IngredientCommand ingredientCommand);
 
     @Mapping(source = "ingredient.recipe.id", target="recipeId")
