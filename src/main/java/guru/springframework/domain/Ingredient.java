@@ -15,7 +15,10 @@ import lombok.*;
 // ----------- << imports@AAAAAAF3mkHRmjxf0IE= >>
 // ----------- >>
 
-@Data
+@Getter
+@Setter
+// @Data weird reported behaviour by John commenting out for now
+// using Getters and Setters instead
 @EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 @JsonIgnoreType
