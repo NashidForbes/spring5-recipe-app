@@ -1,15 +1,13 @@
 package guru.springframework.services;
 
-import guru.springframework.command.RecipeCommand;
+import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.RecipeCommandRecipeMapper;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.services.interfaces.RecipeService;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

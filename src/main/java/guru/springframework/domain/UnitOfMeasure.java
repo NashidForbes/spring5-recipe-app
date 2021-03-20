@@ -27,13 +27,13 @@ public class UnitOfMeasure implements Serializable {
 	// ----------- >>
 	private Long id;
 
-	@Version
+/*	@Version
 	// ----------- << version.annotations@AAAAAAF3mkJS5zyJlCE= >>
 	// ----------- >>
-	private Long version;
+	private Long version;*/
 
-	@NotNull
-	@Column(nullable = false)
+	//@NotNull
+	@Column
 	// ----------- << attribute.annotations@AAAAAAF3mmNgqlL9irs= >>
 	// ----------- >>
 	private String units;

@@ -1,4 +1,5 @@
-package guru.springframework.command;
+package guru.springframework.commands;
+
 
 import lombok.Data;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Data
-public class CategoryCommand {
+public class NotesCommand {
     private Long id;
-    private String departmentName;
+    private String notes;
 }

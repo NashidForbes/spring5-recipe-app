@@ -1,6 +1,6 @@
 package guru.springframework.controllers;
 
-import guru.springframework.command.RecipeCommand;
+import guru.springframework.commands.RecipeCommand;
 import guru.springframework.services.interfaces.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

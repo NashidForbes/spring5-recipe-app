@@ -1,4 +1,4 @@
-package guru.springframework.command;
+package guru.springframework.commands;
 
 
 import lombok.Data;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Data
-public class NotesCommand {
+public class UnitOfMeasureCommand {
     private Long id;
-    private String notes;
+    private String units;
 }

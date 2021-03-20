@@ -1,6 +1,6 @@
 package guru.springframework.services.interfaces;
 
-import guru.springframework.command.RecipeCommand;
+import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.Recipe;
 
 import java.util.List;

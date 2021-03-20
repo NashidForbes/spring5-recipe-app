@@ -1,10 +1,10 @@
 package guru.springframework.services.interfaces;
 
-import guru.springframework.command.IngredientCommand;
-import guru.springframework.domain.Ingredient;
-import guru.springframework.domain.Recipe;
+import guru.springframework.commands.IngredientCommand;
 
 public interface IngredientService {
 
     IngredientCommand findByRecipeIdAndIngredientId(Long recipeId, Long ingredientId);
+
+    IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand);
 }

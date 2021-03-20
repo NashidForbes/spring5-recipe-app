@@ -1,8 +1,6 @@
-package guru.springframework.command;
+package guru.springframework.commands;
 
-import guru.springframework.domain.Category;
 import guru.springframework.domain.Difficulty;
-import guru.springframework.domain.Notes;
 
 import java.util.HashSet;
 import java.util.Set;

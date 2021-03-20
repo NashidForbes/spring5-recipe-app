@@ -38,7 +38,7 @@ public class Category implements Serializable {
 	// ----------- >>
 	private String departmentName;
 
-	@ManyToMany(mappedBy="categories", cascade = CascadeType.PERSIST)
+	@ManyToMany(mappedBy="categories")
 /*	@JoinTable(name = "category_recipes", joinColumns = {@JoinColumn(name =
 			"category_id")}, inverseJoinColumns = {@JoinColumn(name = "recipe_id")})*/
 	// ----------- << attribute.annotations@AAAAAAF3ozs6oyR5BEI= >>

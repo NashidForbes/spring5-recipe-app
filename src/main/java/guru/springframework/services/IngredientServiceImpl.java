@@ -1,13 +1,15 @@
 package guru.springframework.services;
 
-import guru.springframework.command.IngredientCommand;
+import guru.springframework.commands.IngredientCommand;
 import guru.springframework.converters.IngredientCommandIngredientMapper;
+import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import guru.springframework.services.interfaces.IngredientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class IngredientServiceImpl implements IngredientService {
     private final IngredientCommandIngredientMapper ingredientCommandIngredientMapper;
     private final RecipeRepository recipeRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
 
     public IngredientServiceImpl(
             IngredientCommandIngredientMapper ingredientCommandIngredientMapper,
@@ -23,6 +26,7 @@ public class IngredientServiceImpl implements IngredientService {
             UnitOfMeasureRepository unitOfMeasureRepository) {
         this.ingredientCommandIngredientMapper = ingredientCommandIngredientMapper;
         this.recipeRepository = recipeRepository;
+        this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
 
     @Override
@@ -37,13 +41,62 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<IngredientCommand> ingredientCommandOptional =
                 recipe.getIngredients().stream()
                         .filter(ingredient -> ingredient.getId().equals(ingredientId))
-                        .filter(ingredient -> ingredient!= null)
-                        .map(ingredientCommandIngredientMapper::IngredientToIngredientCommand).findFirst();
+                        .filter(ingredient -> ingredient != null)
+                        .map(ingredientCommandIngredientMapper::IngredientToIngredientCommand)
+                        .findFirst();
         if (!ingredientCommandOptional.isPresent()) {
             log.debug("Error ingredient id not found " + ingredientId);
             throw new RuntimeException("Error ingredient id not found " + ingredientId);
         }
-
         return ingredientCommandOptional.get();
     }
+
+    @Override
+    @Transactional
+    public IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand) {
+
+        if(ingredientCommand == null){
+            log.error("IngredientCommand object input is null");
+            throw new IllegalArgumentException("Error ingredient command is null");
+        }
+
+        Optional<Recipe> recipeOptional = recipeRepository.findById(
+                ingredientCommand.getRecipeId());
+        if (!recipeOptional.isPresent()) {
+            // TODO toss error if not found
+            log.error("Recipe not fourd for id " + ingredientCommand.getRecipeId());
+            return new IngredientCommand();
+        } else {
+            Recipe recipe = recipeOptional.get();
+            
+            Optional<Ingredient> ingredientOptional = recipe
+                    .getIngredients()
+                    .stream()
+                    .filter(ingredient -> ingredient.getId().equals(ingredientCommand.getId()))
+                    .findFirst();
+            
+            
+            if(ingredientOptional.isPresent()) {
+                Ingredient ingredientFound = ingredientOptional.get();
+                ingredientFound.setDescription(ingredientCommand.getDescription());
+                ingredientFound.setAmount(ingredientCommand.getAmount());
+                ingredientFound.setUnitOfMeasure(unitOfMeasureRepository.findById(ingredientCommand.getUnitOfMeasure().getId())
+                .orElseThrow(() -> new RuntimeException("Unit of Measure Not Found")));  // TODO better error throws
+            } else {
+                // add new ingredient
+                recipe.addIngredient(ingredientCommandIngredientMapper.IngredientCommandToIngredient(ingredientCommand));
+            }
+
+            Recipe savedRecipe = recipeRepository.save(recipe);
+
+            // to do check for fail
+            return ingredientCommandIngredientMapper.IngredientToIngredientCommand(savedRecipe.getIngredients().stream()
+            .filter(recipeIngredients -> recipeIngredients.getId().equals(ingredientCommand.getId()))
+                    .findFirst()
+                    .get());
+          
+        }
+
+    }
+
 }
