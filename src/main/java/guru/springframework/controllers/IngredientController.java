@@ -41,7 +41,7 @@ public class IngredientController {
     public String ShowIngredient(@PathVariable String recipeId, @PathVariable String id,
                                  Model model) {
         log.debug(
-                "Getting recipe id " + recipeId + "and getting ingredient with id " + id);
+                "Getting recipe id " + recipeId + " and getting ingredient with id " + id);
         // use commands object to avoid lazy load errors in Thymeleaf
         model.addAttribute("ingredient",
                 ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId),
