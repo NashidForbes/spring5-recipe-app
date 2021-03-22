@@ -16,19 +16,19 @@ public class RecipeController {
     }
 
     // restful like url mapping
-    @RequestMapping("/recipe/{id}/show")
+    @GetMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findById(new Long(id)));
         return "recipe/show";
     }
 
-    @RequestMapping("/recipe/new")
+    @GetMapping("/recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
         return "recipe/recipeform";
     }
 
-    @RequestMapping("/recipe/{id}/update")
+    @GetMapping("/recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
         return "recipe/recipeform";
@@ -43,8 +43,7 @@ public class RecipeController {
     }
 
 
-    @GetMapping
-    @RequestMapping("/recipe/{id}/delete")
+    @GetMapping("/recipe/{id}/delete")
     public String deleteRecipe(@PathVariable String id, Model model) {
         recipeService.deleteById(Long.valueOf(id));
         return "redirect:/";

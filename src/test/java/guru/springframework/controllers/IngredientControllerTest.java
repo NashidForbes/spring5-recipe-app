@@ -15,7 +15,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -125,5 +128,33 @@ class IngredientControllerTest {
                 .andExpect(model().attributeExists("uomList"));
 
         verify(recipeService, times(1)).findCommandById(anyLong());
+    }
+
+
+    @Test
+    void deleteIngredient() throws Exception {
+        //given
+        RecipeCommand recipeCommand = new RecipeCommand();
+        recipeCommand.setId(1L);
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setId(2L);
+        Set<IngredientCommand> ingredients = new HashSet<>();
+
+        ingredients.add(ingredientCommand);
+
+        recipeCommand.setIngredients(ingredients);
+
+
+
+        //then
+        mockMvc.perform(get("/recipe/1/ingredient/2/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/recipe/1/ingredients"));
+
+        assertEquals(null, ingredientService.findByRecipeIdAndIngredientId(
+                recipeCommand.getId(), ingredientCommand.getId()));
+        verify(ingredientService, times(1)).deleteIngredientById(anyLong(),
+                anyLong());
     }
 }

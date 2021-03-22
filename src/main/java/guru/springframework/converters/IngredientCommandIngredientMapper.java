@@ -14,8 +14,8 @@ https://github.com/springframeworkguru/spring5-recipe-app/tree/creating-command-
 public interface IngredientCommandIngredientMapper {
 
     IngredientCommandIngredientMapper INSTANCE = Mappers.getMapper(IngredientCommandIngredientMapper.class);
-
-    @Mapping(source = "recipeId", target="recipe.id")
+    // TODO find syntax for finding id in a targeted set of objects
+    //@Mapping(source = "recipeId", target="recipe.id")
     Ingredient IngredientCommandToIngredient(IngredientCommand ingredientCommand);
 
     @Mapping(source = "ingredient.recipe.id", target="recipeId")

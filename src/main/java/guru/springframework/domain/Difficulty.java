@@ -16,6 +16,7 @@ import java.time.*;
 public enum Difficulty {
 	EASY,
 	MODERATE,
+	SORTA_HARD,
 	HARD;
 
 // ----------- << enum.extras@AAAAAAF3mmaCalkY2ig= >>
