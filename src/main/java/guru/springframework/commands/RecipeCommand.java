@@ -24,7 +24,7 @@ public class RecipeCommand {
     private Integer cookTime;
     private Difficulty difficulty;
     @NotBlank
-    @Size(min = 3, max = 255)
+    @Size(min = 3, max = 8024)
     private String directions;
     private Set<IngredientCommand> ingredients = new HashSet<>();
     @NotBlank
