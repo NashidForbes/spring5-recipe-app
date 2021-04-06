@@ -44,6 +44,14 @@ version = '0.0.1-SNAPSHOT'
 description = 'spring5-recipe-app'
 java.sourceCompatibility = JavaVersion.VERSION_11
 
+apply plugin: 'java'
+
+compileJava {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+
 publishing {
     publications {
         maven(MavenPublication) {
