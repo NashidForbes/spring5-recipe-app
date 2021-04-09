@@ -3,42 +3,38 @@
 */
 package guru.springframework.domain;
 
-import java.util.*;
-import java.time.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Id;
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.*;
-import lombok.*;
+import java.util.HashSet;
+import java.util.Set;
 // ----------- << imports@AAAAAAF3mjyVLTsRaMk= >>
 // ----------- >>
 
-@Data
-@EqualsAndHashCode(exclude = {"recipes"})
-@Entity
-@JsonIgnoreType
+@Getter
+@Setter
+@Document
 // ----------- << class.annotations@AAAAAAF3mjyVLTsRaMk= >>
 // ----------- >>
 public class Category implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	// ----------- << id.annotations@AAAAAAF3mjyVLTsRaMk= >>
 	// ----------- >>
-	private Long id;
+	private String id;
 
-	@Version
 	// ----------- << version.annotations@AAAAAAF3mjyVLTsRaMk= >>
 	// ----------- >>
-	private Long version;
+	//private Long version;
 
-	@NotNull
-	@Column(nullable = false)
 	// ----------- << attribute.annotations@AAAAAAF3mjzmCTsVE5A= >>
 	// ----------- >>
 	private String departmentName;
 
-	@ManyToMany(mappedBy="categories")
+	@DBRef
 /*	@JoinTable(name = "category_recipes", joinColumns = {@JoinColumn(name =
 			"category_id")}, inverseJoinColumns = {@JoinColumn(name = "recipe_id")})*/
 	// ----------- << attribute.annotations@AAAAAAF3ozs6oyR5BEI= >>

@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 public class RecipeCommand {
-    private Long id;
+    private String id;
     private Set<CategoryCommand> categories = new HashSet<>();
     private Integer cookTime;
     private Difficulty difficulty;

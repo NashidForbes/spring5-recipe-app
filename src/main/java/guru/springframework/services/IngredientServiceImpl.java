@@ -4,7 +4,6 @@ import guru.springframework.commands.IngredientCommand;
 import guru.springframework.converters.IngredientCommandIngredientMapper;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
-import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import guru.springframework.services.interfaces.IngredientService;
@@ -20,22 +19,21 @@ public class IngredientServiceImpl implements IngredientService {
     private final IngredientCommandIngredientMapper ingredientCommandIngredientMapper;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
-    private final IngredientRepository ingredientRepository;
+    //private final IngredientRepository ingredientRepository;
 
     public IngredientServiceImpl(
             IngredientCommandIngredientMapper ingredientCommandIngredientMapper,
             RecipeRepository recipeRepository,
-            UnitOfMeasureRepository unitOfMeasureRepository,
-            IngredientRepository ingredientRepository) {
+            UnitOfMeasureRepository unitOfMeasureRepository) {
         this.ingredientCommandIngredientMapper = ingredientCommandIngredientMapper;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
-        this.ingredientRepository = ingredientRepository;
+        //this.ingredientRepository = ingredientRepository;
     }
 
     @Override
-    public IngredientCommand findByRecipeIdAndIngredientId(Long recipeId,
-                                                           Long ingredientId) {
+    public IngredientCommand findByRecipeIdAndIngredientId(String recipeId,
+                                                           String ingredientId) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
         if (!recipeOptional.isPresent()) {
             log.debug("Error recipe id not found " + recipeId);
@@ -121,7 +119,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     @Transactional
-    public void deleteIngredientById(Long recipeId, Long ingredientId) {
+    public void deleteIngredientById(String recipeId, String ingredientId) {
         if (recipeId == null) {
             log.error("recipeId input is null");
             throw new IllegalArgumentException("Error recipeId is null");
@@ -152,11 +150,11 @@ public class IngredientServiceImpl implements IngredientService {
             // Note: all manual tasks to delete references and objects between recipe and
             // ingredients, Not quite what I expected with JPA.
             Ingredient ingredientFound = ingredientOptional.get();
-            ingredientFound.setRecipe(null);
+            //ingredientFound.setRecipe(null);
             recipe.getIngredients().remove(ingredientFound);
             recipeRepository.save(recipe);
 
-            ingredientRepository.deleteById(ingredientFound.getId());
+            //ingredientRepository.deleteById(ingredientFound.getId());
         }
 
     }

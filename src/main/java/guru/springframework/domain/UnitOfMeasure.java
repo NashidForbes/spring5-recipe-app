@@ -3,37 +3,33 @@
 */
 package guru.springframework.domain;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.*;
-import java.time.*;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 
 // ----------- << imports@AAAAAAF3mkJS5zyJlCE= >>
 // ----------- >>
 
-@Data
-@Entity
+@Getter
+@Setter
+@Document
 // ----------- << class.annotations@AAAAAAF3mkJS5zyJlCE= >>
 // ----------- >>
 public class UnitOfMeasure implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	// ----------- << id.annotations@AAAAAAF3mkJS5zyJlCE= >>
 	// ----------- >>
-	private Long id;
+	private String id;
 
 /*	@Version
 	// ----------- << version.annotations@AAAAAAF3mkJS5zyJlCE= >>
 	// ----------- >>
 	private Long version;*/
 
-	//@NotNull
-	@Column
 	// ----------- << attribute.annotations@AAAAAAF3mmNgqlL9irs= >>
 	// ----------- >>
 	private String units;

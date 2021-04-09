@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -42,12 +41,12 @@ public class RecipeServiceImplTest {
 
     @Test
     public void testDeleteById() throws Exception {
-        Long idToDelete = Long.valueOf(2L);
+        String idToDelete = "2";
         recipeService.deleteById(idToDelete);
 
         // no 'when', since method has void return type
 
-        verify(recipeRepository, times(1)).deleteById(anyLong());
+        verify(recipeRepository, times(1)).deleteById(anyString());
     }
 
     @Test(expected = NotFoundException.class)
@@ -55,15 +54,15 @@ public class RecipeServiceImplTest {
 
         Optional<Recipe> recipeOptional = Optional.empty();
 
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
 
-        Recipe recipe = recipeService.findById(9L);
+        Recipe recipe = recipeService.findById("9");
 
         // should go boom (throw exception)
     }
 
     @Test(expected = NumberFormatException.class)
     public void getRecipeById_throws_NumberFormatException_when_id_is_not_a_number() throws Exception{
-        recipeService.findById(Long.valueOf("asd"));
+        recipeService.findById("asd");
     }
 }

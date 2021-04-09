@@ -10,6 +10,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Data
 public class CategoryCommand {
-    private Long id;
+    private String id;
     private String departmentName;
 }

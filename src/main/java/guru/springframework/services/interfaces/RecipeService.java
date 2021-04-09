@@ -8,11 +8,11 @@ import java.util.List;
 public interface RecipeService {
     List<Recipe> getRecipes();
 
-    Recipe findById(Long aLong);
+    Recipe findById(String aString);
 
     RecipeCommand saveRecipeCommand(RecipeCommand command);
 
-    RecipeCommand findCommandById(long anyLong);
+    RecipeCommand findCommandById(String anyString);
 
-    void deleteById(Long idToDelete);
+    void deleteById(String idToDelete);
 }

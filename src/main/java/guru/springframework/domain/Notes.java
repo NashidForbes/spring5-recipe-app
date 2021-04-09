@@ -3,48 +3,41 @@
 */
 package guru.springframework.domain;
 
-import java.util.*;
-import java.time.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.*;
-import lombok.*;
 // ----------- << imports@AAAAAAF3mkKjjjyZK7o= >>
 // ----------- >>
 
-@Data
-@EqualsAndHashCode(exclude = {"recipe"})
-@Entity
-@JsonIgnoreType
+@Getter
+@Setter
 // ----------- << class.annotations@AAAAAAF3mkKjjjyZK7o= >>
 // ----------- >>
 public class Notes implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	// ----------- << id.annotations@AAAAAAF3mkKjjjyZK7o= >>
 	// ----------- >>
-	private Long id;
+	private String id;
 
 /*	@Version
 	// ----------- << version.annotations@AAAAAAF3mkKjjjyZK7o= >>
 	// ----------- >>
 	private Long version;*/
 
-	//@NotNull
-	@Column
+
 	// ----------- << attribute.annotations@AAAAAAF3mmP6fVRQ3Tc= >>
 	// for "large object" data
-	@Lob
+	//@Lob
 	// ----------- >>
 	private String notes;
 
-	//@NotNull
+/*	//@NotNull
 	@OneToOne(mappedBy = "notes")
 	// ----------- << attribute.annotations@AAAAAAF3mlRU/kDONtQ= >>
 	// ----------- >>
 	private Recipe recipe;
-	// ----------- << class.extras@AAAAAAF3mkKjjjyZK7o= >>
+	// ----------- << class.extras@AAAAAAF3mkKjjjyZK7o= >>*/
 // ----------- >>
 }

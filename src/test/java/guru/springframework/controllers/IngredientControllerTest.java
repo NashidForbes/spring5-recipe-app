@@ -15,11 +15,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -50,20 +48,20 @@ class IngredientControllerTest {
     @Test
     public void testListIngredients() throws Exception {
         RecipeCommand recipeCommand = new RecipeCommand();
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
         mockMvc.perform(get("/recipe/1/ingredients"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/ingredient/list"))
                 .andExpect(model().attributeExists("recipe"));
         //then
-        verify(recipeService, times(1)).findCommandById(anyLong());
+        verify(recipeService, times(1)).findCommandById(anyString());
     }
 
 
     @Test
     public void testShowIngredient() throws Exception {
         IngredientCommand ingredientCommand = new IngredientCommand();
-        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong()))
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString()))
                 .thenReturn(ingredientCommand);
         mockMvc.perform(get("/recipe/1/ingredient/2/show"))
                 .andExpect(status().isOk())
@@ -78,7 +76,7 @@ class IngredientControllerTest {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
         //when
-        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(ingredientCommand);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(ingredientCommand);
         when(unitOfMeasureService.listAllUoms()).thenReturn(new ArrayList<>());
 
         //then
@@ -93,8 +91,8 @@ class IngredientControllerTest {
     void testSaveOrUpdate() throws Exception {
         //given
         IngredientCommand command = new IngredientCommand();
-        command.setId(3L);
-        command.setRecipeId(2L);
+        command.setId("3");
+        command.setRecipeId("2");
 
         //when
         when(ingredientService.saveIngredientCommand(any())).thenReturn(command);
@@ -114,10 +112,10 @@ class IngredientControllerTest {
     void newIngredient() throws Exception {
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
+        recipeCommand.setId("1");
 
         //when
-        when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
+        when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
         when(unitOfMeasureService.listAllUoms()).thenReturn(new ArrayList<>());
 
         //then
@@ -127,7 +125,7 @@ class IngredientControllerTest {
                 .andExpect(model().attributeExists("ingredient"))
                 .andExpect(model().attributeExists("uomList"));
 
-        verify(recipeService, times(1)).findCommandById(anyLong());
+        verify(recipeService, times(1)).findCommandById(anyString());
     }
 
 
@@ -135,10 +133,10 @@ class IngredientControllerTest {
     void deleteIngredient() throws Exception {
         //given
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
+        recipeCommand.setId("1");
 
         IngredientCommand ingredientCommand = new IngredientCommand();
-        ingredientCommand.setId(2L);
+        ingredientCommand.setId("2");
         Set<IngredientCommand> ingredients = new HashSet<>();
 
         ingredients.add(ingredientCommand);
@@ -154,7 +152,7 @@ class IngredientControllerTest {
 
         assertEquals(null, ingredientService.findByRecipeIdAndIngredientId(
                 recipeCommand.getId(), ingredientCommand.getId()));
-        verify(ingredientService, times(1)).deleteIngredientById(anyLong(),
-                anyLong());
+        verify(ingredientService, times(1)).deleteIngredientById(anyString(),
+                anyString());
     }
 }
