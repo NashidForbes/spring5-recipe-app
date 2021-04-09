@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 // ----------- << imports@AAAAAAF3mkHRmjxf0IE= >>
 // ----------- >>
 
@@ -23,7 +24,10 @@ public class Ingredient implements Serializable {
     @Id
     // ----------- << id.annotations@AAAAAAF3mkHRmjxf0IE= >>
     // ----------- >>
-    private String id;
+    // use UUID.randomUUID.toString() to set ID
+    // since Mongo is a document based database sublists in a document are not assigned
+    // an id
+    private String id = UUID.randomUUID().toString();
 
 /*	@Version
 	// ----------- << version.annotations@AAAAAAF3mkHRmjxf0IE= >>

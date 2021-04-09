@@ -11,8 +11,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,13 +20,15 @@ import java.util.Set;
 @Data
 public class RecipeCommand {
     private String id;
-    private Set<CategoryCommand> categories = new HashSet<>();
+    // change from Set to List, since Spring MVC properly binds to List
+    private List<CategoryCommand> categories = new ArrayList<>();
     private Integer cookTime;
     private Difficulty difficulty;
     @NotBlank
     @Size(min = 3, max = 8024)
     private String directions;
-    private Set<IngredientCommand> ingredients = new HashSet<>();
+    // change from Set to List, since Spring MVC properly binds to List
+    private List<IngredientCommand> ingredients = new ArrayList<>();
     @NotBlank
     @Size(min = 3, max = 255)
     private String name;

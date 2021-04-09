@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -137,7 +136,7 @@ class IngredientControllerTest {
 
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setId("2");
-        Set<IngredientCommand> ingredients = new HashSet<>();
+        List<IngredientCommand> ingredients = new ArrayList<>();
 
         ingredients.add(ingredientCommand);
 

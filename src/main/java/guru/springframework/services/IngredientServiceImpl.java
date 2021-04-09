@@ -50,7 +50,13 @@ public class IngredientServiceImpl implements IngredientService {
             log.debug("Error ingredient id not found " + ingredientId);
             throw new RuntimeException("Error ingredient id not found " + ingredientId);
         }
-        return ingredientCommandOptional.get();
+
+        IngredientCommand ingredientCommandFound = ingredientCommandOptional.get();
+        // converter doesn't have access to recipe id due to how Mongo DB works.
+        // Which is different from Spring JPA
+        ingredientCommandFound.setRecipeId(recipeId);
+
+        return ingredientCommandFound;
     }
 
     @Override
@@ -110,8 +116,14 @@ public class IngredientServiceImpl implements IngredientService {
                         .findFirst();
             }
             // to do check for fail
-            return ingredientCommandIngredientMapper
+
+            // converter doesn't have access to recipe id due to how Mongo DB works.
+            // Which is different from Spring JPA
+            IngredientCommand ingredientCommandSaved = ingredientCommandIngredientMapper
                     .IngredientToIngredientCommand(savedIngredientOptional.get());
+            ingredientCommandSaved.setRecipeId(savedRecipe.getId());
+
+            return ingredientCommandSaved;
 
         }
 
