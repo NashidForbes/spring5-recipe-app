@@ -4,8 +4,12 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.repositories.mongodb.CategoryReactiveRepository;
+import guru.springframework.repositories.mongodb.RecipeReactiveRepository;
+import guru.springframework.repositories.mongodb.UnitOfMeasureReactiveRepository;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -23,6 +27,13 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
+
+    @Autowired
+    UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
+    @Autowired
+    CategoryReactiveRepository categoryReactiveRepository;
+    @Autowired
+    RecipeReactiveRepository recipeReactiveRepository;
 
     public RecipeBootStrap(
             CategoryRepository categoryRepository,
@@ -43,15 +54,23 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
             log.debug("Loading Categories");
             loadCategories();
         }
+        log.error("onApplicationEvent:############");
+        log.error("Category count: " + categoryReactiveRepository.count().block().toString());
 
         if(unitOfMeasureRepository.count() == 0L){
             log.debug("Loading UOMs");
             loadUom();
         }
 
+        log.error("onApplicationEvent:############");
+        log.error("Unit of Measure count: " + unitOfMeasureReactiveRepository.count().block().toString());
+
         log.debug("Saving all loadData for bootstrap");
         recipeRepository.saveAll(loadData());
         //loadData();
+
+        log.error("onApplicationEvent:############");
+        log.error("Recipe count: " + recipeReactiveRepository.count().block().toString());
     }
 
     private void loadCategories() {
