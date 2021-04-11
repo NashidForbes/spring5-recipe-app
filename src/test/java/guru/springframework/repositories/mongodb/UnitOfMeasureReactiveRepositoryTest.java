@@ -1,6 +1,7 @@
 package guru.springframework.repositories.mongodb;
 
 import guru.springframework.domain.UnitOfMeasure;
+import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

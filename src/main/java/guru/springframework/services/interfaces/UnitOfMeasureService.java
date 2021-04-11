@@ -1,9 +1,8 @@
 package guru.springframework.services.interfaces;
 
 import guru.springframework.commands.UnitOfMeasureCommand;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface UnitOfMeasureService {
-    List<UnitOfMeasureCommand> listAllUoms();
+    Flux<UnitOfMeasureCommand> listAllUoms();
 }

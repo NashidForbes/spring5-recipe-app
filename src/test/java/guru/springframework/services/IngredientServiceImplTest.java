@@ -6,7 +6,8 @@ import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
-import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.repositories.reactive.RecipeReactiveRepository;
+import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import guru.springframework.services.interfaces.IngredientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,11 +26,15 @@ class IngredientServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
     @Mock
+    RecipeReactiveRepository recipeReactiveRepository;
+    @Mock
     IngredientService ingredientService;
     @Mock
-    UnitOfMeasureRepository unitOfMeasureRepository;
+    UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
     @Mock
     IngredientRepository ingredientRepository;
+
+
 
     IngredientCommandIngredientMapper ingredientCommandIngredientMapper;
 
@@ -42,8 +47,8 @@ class IngredientServiceImplTest {
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ingredientService = new IngredientServiceImpl(ingredientCommandIngredientMapper,
-                recipeRepository, unitOfMeasureRepository);
+        ingredientService = new IngredientServiceImpl(ingredientCommandIngredientMapper
+                ,recipeReactiveRepository, unitOfMeasureReactiveRepository, recipeRepository);
     }
 
     @Test
@@ -70,7 +75,7 @@ class IngredientServiceImplTest {
         //then
         // DONE Figure out the java.lang.NullPointerException
         IngredientCommand ingredientCommand =
-                ingredientService.findByRecipeIdAndIngredientId("1", "3");
+                ingredientService.findByRecipeIdAndIngredientId("1", "3").block();
 
 
 

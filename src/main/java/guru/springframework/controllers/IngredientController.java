@@ -44,7 +44,7 @@ public class IngredientController {
         // use commands object to avoid lazy load errors in Thymeleaf
         model.addAttribute("ingredient",
                 ingredientService.findByRecipeIdAndIngredientId(recipeId,
-                        id));
+                        id).block());
         return "recipe/ingredient/show";
     }
 
@@ -63,7 +63,9 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredientCommand);
         // init unit of measure
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+        // nothing happens with the reactive service unitOfMeasureService until the
+        // .block() is called
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms().collectList().block());
         return "recipe/ingredient/ingredientform";
 
     }
@@ -74,15 +76,17 @@ public class IngredientController {
                                          @PathVariable String id, Model model) {
         model.addAttribute("ingredient",
                 ingredientService.findByRecipeIdAndIngredientId(recipeId,
-                        id));
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+                        id).block());
+        // nothing happens with the reactive service unitOfMeasureService until the
+        // .block() is called
+        model.addAttribute("uomList",  unitOfMeasureService.listAllUoms().collectList().block());
         return "recipe/ingredient/ingredientform";
     }
 
     @PostMapping("recipe/{recipeId}/ingredient")
     public String saveOrUpdate(@ModelAttribute("ingredient") IngredientCommand command) {
         IngredientCommand savedCommand =
-                ingredientService.saveIngredientCommand(command);
+                ingredientService.saveIngredientCommand(command).block();
         log.debug("saved recipe id:" + savedCommand.getRecipeId());
         log.debug("saved ingredient id " + savedCommand.getId());
         return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" +

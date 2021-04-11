@@ -1,6 +1,7 @@
 package guru.springframework.repositories.mongodb;
 
 import guru.springframework.domain.Category;
+import guru.springframework.repositories.reactive.CategoryReactiveRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

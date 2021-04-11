@@ -2,6 +2,7 @@ package guru.springframework.controllers;
 
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.commands.RecipeCommand;
+import guru.springframework.commands.UnitOfMeasureCommand;
 import guru.springframework.services.interfaces.IngredientService;
 import guru.springframework.services.interfaces.RecipeService;
 import guru.springframework.services.interfaces.UnitOfMeasureService;
@@ -12,6 +13,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import reactor.core.CoreSubscriber;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +65,7 @@ class IngredientControllerTest {
     public void testShowIngredient() throws Exception {
         IngredientCommand ingredientCommand = new IngredientCommand();
         when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString()))
-                .thenReturn(ingredientCommand);
+                .thenReturn(Mono.just(ingredientCommand));
         mockMvc.perform(get("/recipe/1/ingredient/2/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/ingredient/show"))
@@ -75,8 +79,14 @@ class IngredientControllerTest {
         IngredientCommand ingredientCommand = new IngredientCommand();
 
         //when
-        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(ingredientCommand);
-        when(unitOfMeasureService.listAllUoms()).thenReturn(new ArrayList<>());
+        when(ingredientService.findByRecipeIdAndIngredientId(anyString(), anyString())).thenReturn(Mono.just(ingredientCommand));
+        when(unitOfMeasureService.listAllUoms()).thenReturn(
+                new Flux<UnitOfMeasureCommand>() {
+                    @Override
+                    public void subscribe(
+                            CoreSubscriber<? super UnitOfMeasureCommand> coreSubscriber) {
+                    }
+                });
 
         //then
         mockMvc.perform(get("/recipe/1/ingredient/2/update"))
@@ -94,7 +104,7 @@ class IngredientControllerTest {
         command.setRecipeId("2");
 
         //when
-        when(ingredientService.saveIngredientCommand(any())).thenReturn(command);
+        when(ingredientService.saveIngredientCommand(any())).thenReturn(Mono.just(command));
 
         //then
         mockMvc.perform(post("/recipe/2/ingredient")
@@ -115,7 +125,13 @@ class IngredientControllerTest {
 
         //when
         when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
-        when(unitOfMeasureService.listAllUoms()).thenReturn(new ArrayList<>());
+        when(unitOfMeasureService.listAllUoms()).thenReturn(
+                new Flux<UnitOfMeasureCommand>() {
+                    @Override
+                    public void subscribe(
+                            CoreSubscriber<? super UnitOfMeasureCommand> coreSubscriber) {
+                    }
+                });
 
         //then
         mockMvc.perform(get("/recipe/1/ingredient/new"))
