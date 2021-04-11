@@ -42,9 +42,9 @@ public class IngredientServiceImpl implements IngredientService {
 
         return recipeReactiveRepository.findById(recipeId)
                 .map(recipe -> recipe.getIngredients()
-                .stream()
-                .filter(ingredient -> ingredient.getId().equalsIgnoreCase(ingredientId))
-                .findFirst())
+                        .stream()
+                        .filter(ingredient -> ingredient.getId().equalsIgnoreCase(ingredientId))
+                        .findFirst())
                 .filter(Optional::isPresent)
                 .map(ingredient -> {
                     IngredientCommand ingredientCommand =
