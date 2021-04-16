@@ -5,12 +5,10 @@ package guru.springframework.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 // ----------- << imports@AAAAAAF3mjyVLTsRaMk= >>
 // ----------- >>
@@ -34,7 +32,7 @@ public class Category implements Serializable {
 	// ----------- >>
 	private String departmentName;
 
-	@DBRef
+
 /*	@JoinTable(name = "category_recipes", joinColumns = {@JoinColumn(name =
 			"category_id")}, inverseJoinColumns = {@JoinColumn(name = "recipe_id")})*/
 	// ----------- << attribute.annotations@AAAAAAF3ozs6oyR5BEI= >>
@@ -44,7 +42,7 @@ public class Category implements Serializable {
 	// many to many
     // relationships.  Use the "@ManyToMany(MappedBy = <other class join field>)".
 	// ----------- >>
-	private Set<Recipe> recipes = new HashSet<>();
+	private Set<Recipe> recipes;
 	// ----------- << class.extras@AAAAAAF3mjyVLTsRaMk= >>
 // ----------- >>
 }

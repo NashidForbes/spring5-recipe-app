@@ -5,10 +5,9 @@ package guru.springframework.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -67,7 +66,6 @@ public class Recipe implements Serializable {
 	// ----------- >>
 	private Byte[] image;
 
-    @DBRef
 	// ----------- << attribute.annotations@AAAAAAF3mkZbVj6xII4= >>
 	// ----------- >>
 	private Set<Category> categories = new HashSet<>();

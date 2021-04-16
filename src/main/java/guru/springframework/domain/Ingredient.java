@@ -5,7 +5,6 @@ package guru.springframework.domain;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -50,7 +49,6 @@ public class Ingredient implements Serializable {
     // ----------- >>
     private Recipe recipe;
 
-    @DBRef
     //@JoinColumn(name = "unitOfMeasure_id")
     // ----------- << attribute.annotations@AAAAAAF3n+nmfNXQJ9g= >>
     // ----------- >>
