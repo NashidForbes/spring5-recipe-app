@@ -5,7 +5,6 @@ import guru.springframework.converters.IngredientCommandIngredientMapper;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
-import guru.springframework.repositories.reactive.RecipeReactiveRepository;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import guru.springframework.services.interfaces.IngredientService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +18,15 @@ import java.util.Optional;
 @Service
 public class IngredientServiceImpl implements IngredientService {
     private final IngredientCommandIngredientMapper ingredientCommandIngredientMapper;
-    private final RecipeReactiveRepository recipeReactiveRepository;
+    private final guru.springframework.repositories.reactive.RecipeReactiveRepository
+            recipeReactiveRepository;
     private final UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository;
     private final RecipeRepository recipeRepository;
     
 
     public IngredientServiceImpl(
             IngredientCommandIngredientMapper ingredientCommandIngredientMapper,
-            RecipeReactiveRepository recipeReactiveRepository,
+            guru.springframework.repositories.reactive.RecipeReactiveRepository recipeReactiveRepository,
             UnitOfMeasureReactiveRepository unitOfMeasureReactiveRepository,
             RecipeRepository recipeRepository) {
         this.ingredientCommandIngredientMapper = ingredientCommandIngredientMapper;

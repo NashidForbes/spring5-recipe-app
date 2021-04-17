@@ -6,7 +6,6 @@ import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
-import guru.springframework.repositories.reactive.RecipeReactiveRepository;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import guru.springframework.services.interfaces.IngredientService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,8 @@ class IngredientServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
     @Mock
-    RecipeReactiveRepository recipeReactiveRepository;
+    guru.springframework.repositories.reactive.RecipeReactiveRepository
+            recipeReactiveRepository;
     @Mock
     IngredientService ingredientService;
     @Mock

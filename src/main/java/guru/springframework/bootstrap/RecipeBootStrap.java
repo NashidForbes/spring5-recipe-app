@@ -5,7 +5,6 @@ import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import guru.springframework.repositories.reactive.CategoryReactiveRepository;
-import guru.springframework.repositories.reactive.RecipeReactiveRepository;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,8 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
     @Autowired
     CategoryReactiveRepository categoryReactiveRepository;
     @Autowired
-    RecipeReactiveRepository recipeReactiveRepository;
+    guru.springframework.repositories.reactive.RecipeReactiveRepository
+            recipeReactiveRepository;
 
     public RecipeBootStrap(
             CategoryRepository categoryRepository,
