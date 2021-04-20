@@ -4,6 +4,7 @@ import guru.springframework.commands.IngredientCommand;
 import guru.springframework.converters.IngredientCommandIngredientMapper;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
+import guru.springframework.domain.UnitOfMeasure;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.reactive.UnitOfMeasureReactiveRepository;
 import guru.springframework.services.interfaces.IngredientService;
@@ -81,9 +82,9 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     @Transactional
     public Mono<IngredientCommand> saveIngredientCommand(IngredientCommand ingredientCommand) {
-        if (ingredientCommand == null) {
-            log.error("IngredientCommand object input is null");
-            throw new IllegalArgumentException("Error ingredient command is null");
+        if (ingredientCommand.getRecipeId() == null) {
+            log.error("IngredientCommand recipe id is null");
+            throw new IllegalArgumentException("Error IngredientCommand recipe id is null");
         }
         Optional<Recipe> recipeOptional = recipeRepository.findById(
                 ingredientCommand.getRecipeId());
@@ -92,60 +93,60 @@ public class IngredientServiceImpl implements IngredientService {
             log.error("Recipe not fourd for id " + ingredientCommand.getRecipeId());
             return Mono.just(new IngredientCommand());
         } else {
+
             Recipe recipe = recipeOptional.get();
-            Optional<Ingredient> ingredientOptional = recipe
-                    .getIngredients()
-                    .stream()
-                    .filter(ingredient -> ingredient.getId()
-                            .equals(ingredientCommand.getId()))
-                    .findFirst();
-            if (ingredientOptional.isPresent()) {
-                Ingredient ingredientFound = ingredientOptional.get();
-                ingredientFound.setDescription(ingredientCommand.getDescription());
-                ingredientFound.setAmount(ingredientCommand.getAmount());
-                ingredientFound.setUnitOfMeasure(unitOfMeasureReactiveRepository
-                        .findById(ingredientCommand.getUnitOfMeasure().getId()).block());
-/*                        .orElseThrow(() -> new RuntimeException(
-                                "Unit of Measure Not Found")));  // TODO better error*/
-                // throws
-            } else {
-                // add new ingredient
-                recipe.addIngredient(ingredientCommandIngredientMapper
-                        .IngredientCommandToIngredient(ingredientCommand));
-            }
-            Recipe savedRecipe = recipeReactiveRepository.save(recipe).block();
-            Optional<Ingredient> savedIngredientOptional =
-                    savedRecipe.getIngredients().stream()
-                            .filter(recipeIngredients -> recipeIngredients.getId()
-                                    .equals(ingredientCommand.getId()))
-                            .findFirst();
-            // check the savedIngredient by description
-            // saving ingredient for the first time it won't have an id available yet
-            // for  query?
-            if (!savedIngredientOptional.isPresent()) {
-                // not totally safe, but the best for now
-                savedIngredientOptional = savedRecipe.getIngredients().stream()
-                        .filter(recipeIngredients -> recipeIngredients.getDescription()
-                                .equals(ingredientCommand.getDescription()))
-                        .filter(recipeIngredients -> recipeIngredients.getAmount()
-                                .equals(ingredientCommand.getAmount()))
-                        .filter(recipeIngredients -> recipeIngredients.getUnitOfMeasure()
-                                .getId()
-                                .equals(ingredientCommand.getUnitOfMeasure().getId()))
-                        .findFirst();
-            }
-            // to do check for fail
 
-            // converter doesn't have access to recipe id due to how Mongo DB works.
-            // Which is different from Spring JPA
-            IngredientCommand ingredientCommandSaved = ingredientCommandIngredientMapper
-                    .IngredientToIngredientCommand(savedIngredientOptional.get());
-            ingredientCommandSaved.setRecipeId(savedRecipe.getId());
+            unitOfMeasureReactiveRepository.findById(ingredientCommand.getUnitOfMeasure().getId())
+                    .doOnNext(uom -> ingredientCommand.getUnitOfMeasure().setUnits(uom.getUnits())).toProcessor().block();
 
-            return Mono.just(ingredientCommandSaved);
+            addOrUpdateIngredient(recipe, ingredientCommand);
+
+            Recipe savedRecipe = recipeRepository.save(recipe);
+
+            Ingredient savedIngredient = findIngredient(recipe, ingredientCommand.getId())
+                    .orElseGet(() -> findIngredientByValue(recipe, ingredientCommand));
+            IngredientCommand savedCommand = ingredientCommandIngredientMapper.IngredientToIngredientCommand(savedIngredient);
+            savedCommand.setRecipeId(recipe.getId());
+            return Mono.just(savedCommand);
 
         }
 
+    }
+
+    private void addOrUpdateIngredient(Recipe recipe, IngredientCommand command) {
+        Optional<Ingredient> ingredientOpt = findIngredient(recipe, command.getId());
+        if (ingredientOpt.isPresent()) {
+            updateIngredient(ingredientOpt.get(), command);
+        } else {
+            recipe.addIngredient(ingredientCommandIngredientMapper.IngredientCommandToIngredient(command));
+        }
+    }
+
+    private Ingredient findIngredientByValue(Recipe recipe, IngredientCommand command) {
+        return recipe.getIngredients().stream()
+                .filter(ingredient -> ingredient.getDescription().equals(command.getDescription()))
+                .filter(ingredient -> ingredient.getAmount().equals(command.getAmount()))
+                .filter(ingredient -> ingredient.getUnitOfMeasure().getId().equals(command.getUnitOfMeasure().getId()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Optional<Ingredient> findIngredient(Recipe recipe, String id) {
+        return recipe.getIngredients().stream()
+                .filter(ingredient -> ingredient.getId().equals(id))
+                .findAny();
+    }
+
+    private void updateIngredient(Ingredient ingredient, IngredientCommand command) {
+        ingredient.setDescription(command.getDescription());
+        ingredient.setAmount(command.getAmount());
+        UnitOfMeasure unitOfMeasure = getUnitOfMeasure(command).toProcessor().block();
+        ingredient.setUnitOfMeasure(unitOfMeasure);
+    }
+
+    private Mono<UnitOfMeasure> getUnitOfMeasure(IngredientCommand command) {
+        String uomId = command.getUnitOfMeasure().getId();
+        return unitOfMeasureReactiveRepository.findById(uomId);
     }
 
     @Override

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class RecipeServiceIT {
         //  [guru.springframework.domain.Notes] with identifier [1]: optimistic locking failed;
         //  nested exception is org.hibernate.StaleObjectStateException:
         //  Row was updated or deleted by another transaction
-        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
+        Mono<RecipeCommand> savedRecipeCommand = recipeService.saveRecipeCommand(testRecipeCommand);
 
         //then
         assertEquals(NEW_DESCRIPTION, savedRecipeCommand.getName());

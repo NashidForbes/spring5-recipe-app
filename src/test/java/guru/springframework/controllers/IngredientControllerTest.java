@@ -50,7 +50,7 @@ class IngredientControllerTest {
 
     @Test
     public void testListIngredients() throws Exception {
-        RecipeCommand recipeCommand = new RecipeCommand();
+        Mono<RecipeCommand> recipeCommand = new RecipeCommand();
         when(recipeService.findCommandById(anyString())).thenReturn(recipeCommand);
         mockMvc.perform(get("/recipe/1/ingredients"))
                 .andExpect(status().isOk())
@@ -120,7 +120,7 @@ class IngredientControllerTest {
     @Test
     void newIngredient() throws Exception {
         //given
-        RecipeCommand recipeCommand = new RecipeCommand();
+        Mono<RecipeCommand> recipeCommand = new RecipeCommand();
         recipeCommand.setId("1");
 
         //when

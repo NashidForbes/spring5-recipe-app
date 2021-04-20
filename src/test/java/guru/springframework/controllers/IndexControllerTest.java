@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class IndexControllerTest {
     @Test
     public void getIndexPage() throws Exception{
         // given
-        List<Recipe> recipes = new ArrayList<>();
+        Flux recipes = new ArrayList<>();
         recipes.add(new Recipe());
 
         Recipe recipe = new Recipe();

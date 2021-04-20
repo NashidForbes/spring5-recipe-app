@@ -1,7 +1,6 @@
 package guru.springframework.commands;
 
 import guru.springframework.domain.Difficulty;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@Data
 public class RecipeCommand {
     private String id;
     // change from Set to List, since Spring MVC properly binds to List

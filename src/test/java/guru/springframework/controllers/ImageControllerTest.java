@@ -11,6 +11,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import reactor.core.publisher.Mono;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,7 +46,7 @@ class ImageControllerTest {
     @Test
     public void showUploadForm() throws Exception {
         // given
-        RecipeCommand command = new RecipeCommand();
+        Mono<RecipeCommand> command = new RecipeCommand();
         when(recipeService.findCommandById(anyString())).thenReturn(command);
         //when
         mockMvc.perform(get("/recipe/1/image"))
@@ -69,7 +70,7 @@ class ImageControllerTest {
     @Test
     public void renderImageFromDB() throws Exception {
         //
-        RecipeCommand recipeCommand = new RecipeCommand();
+        Mono<RecipeCommand> recipeCommand = new RecipeCommand();
         recipeCommand.setId("1");
         String s = "fake image text";
         Byte[] bytesBoxed = new Byte[s.getBytes().length];
