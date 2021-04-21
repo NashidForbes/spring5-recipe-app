@@ -5,14 +5,11 @@ import guru.springframework.services.interfaces.RecipeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import reactor.core.publisher.Mono;
-
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -21,6 +18,14 @@ public class RecipeController {
     private static final String RECIPE_RECIPEFORM_URL = "recipe/recipeform";
     private final RecipeService recipeService;
 
+    // autowire databinder for validation
+    private WebDataBinder webDataBinder;
+
+    // currently not in use, using different validation logic
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        this.webDataBinder = webDataBinder;
+    }
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -50,13 +55,15 @@ public class RecipeController {
     // bind the form parameters via POST to the properties to the RecipeCommand object
     @PostMapping("/recipe")
     public Mono<String> saveOrUpdate(
-            @Valid @ModelAttribute("recipe") Mono<RecipeCommand> command) {
-/*        if (bindingResult.hasErrors()) {
+            @ModelAttribute("recipe") Mono<RecipeCommand> command) {
+        webDataBinder.validate();
+        BindingResult bindingResult = webDataBinder.getBindingResult();
+        if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
             });
             return Mono.just(RECIPE_RECIPEFORM_URL);
-        }*/
+        }
         return command
                 .flatMap(recipeService::saveRecipeCommand)
                 .map(recipe -> "redirect:/recipe/" + recipe.getId() + "/show")

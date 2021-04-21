@@ -20,6 +20,8 @@ public class RecipeCommand {
     private String id;
     // change from Set to List, since Spring MVC properly binds to List
     private List<CategoryCommand> categories = new ArrayList<>();
+    @Min(1)
+    @Max(999)
     private Integer cookTime;
     private Difficulty difficulty;
     @NotBlank
