@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
@@ -82,7 +83,6 @@ public class IngredientController {
                 });
         model.addAttribute("ingredient", ingredient);
 
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
         return "recipe/ingredient/ingredientform";
     }
 
@@ -94,7 +94,6 @@ public class IngredientController {
                 ingredientService.findByRecipeIdAndIngredientId(recipeId,
                         id));
 
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
         return "recipe/ingredient/ingredientform";
     }
 
@@ -105,7 +104,6 @@ public class IngredientController {
         webDataBinder.validate();
         BindingResult bindingResult = webDataBinder.getBindingResult();
 
-        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.debug(objectError.toString());
@@ -134,6 +132,15 @@ public class IngredientController {
                                    @PathVariable String id) {
         ingredientService.deleteIngredientById(recipeId, id);
         return "redirect:/recipe/" + recipeId + "/ingredients";
+    }
+
+    // adds this attribute to all model inputs e.g. even the @ModelAttribute
+    // ("ingredient") now has this attribute, no longer need to do
+    // model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+    // in the methods to add that attribute to model object
+    @ModelAttribute("uomList")
+    public Flux<UnitOfMeasureCommand> populateUnitOfMeasureCommand(){
+        return unitOfMeasureService.listAllUoms();
     }
 
 }

@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class ImageServiceImplTest {
@@ -41,9 +41,10 @@ public class ImageServiceImplTest {
         Recipe recipe = new Recipe();
         recipe.setId(id);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
-        when(recipeReactiveRepository.findById(anyString())).thenReturn(Mono.just(recipeOptional.get()));
-        when(recipeReactiveRepository.save(any(Recipe.class))).thenReturn(Mono.just(recipe));
-
+        when(recipeReactiveRepository.findById(anyString()))
+                .thenReturn(Mono.just(recipeOptional.get()));
+        when(recipeReactiveRepository.save(any(Recipe.class)))
+                .thenReturn(Mono.just(recipe));
         ArgumentCaptor<Recipe> argumentCaptor = ArgumentCaptor.forClass(Recipe.class);
         //when
         imageService.saveImageFile(id, multipartFile);

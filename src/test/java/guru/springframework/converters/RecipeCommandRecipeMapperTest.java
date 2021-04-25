@@ -5,11 +5,12 @@ import guru.springframework.commands.IngredientCommand;
 import guru.springframework.commands.NotesCommand;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 
 class RecipeCommandRecipeMapperTest {
 
@@ -93,7 +94,7 @@ class RecipeCommandRecipeMapperTest {
 
     }
 
-    @BeforeEach
+    @Before
     void setUp() {
         initRecipeCommand();
         initRecipe();
