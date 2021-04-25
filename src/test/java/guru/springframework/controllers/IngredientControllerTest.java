@@ -6,8 +6,8 @@ import guru.springframework.commands.UnitOfMeasureCommand;
 import guru.springframework.services.interfaces.IngredientService;
 import guru.springframework.services.interfaces.RecipeService;
 import guru.springframework.services.interfaces.UnitOfMeasureService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -20,7 +20,6 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,7 +39,7 @@ class IngredientControllerTest {
 
     MockMvc mockMvc;
 
-    @BeforeEach
+    @Before
     void setUp() {
         MockitoAnnotations.initMocks(this);
         ingredientController = new IngredientController(recipeService, ingredientService,

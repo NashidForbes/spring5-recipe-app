@@ -43,7 +43,8 @@ public class RecipeControllerTest {
     public void showById() throws Exception {
         Recipe recipe = new Recipe();
         recipe.setId("1");
-        when(recipeService.findById(anyString())).thenReturn(recipe);
+        when(recipeService.findById(anyString()))
+                .thenReturn(recipe);
         mockMvc.perform(get("/recipe/1/show"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))

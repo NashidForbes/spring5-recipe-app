@@ -43,7 +43,6 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    @Transactional
     public Mono<RecipeCommand> findCommandById(String anyString) {
         return findById(anyString)
                 .map(recipe -> {

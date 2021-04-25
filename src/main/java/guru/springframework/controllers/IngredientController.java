@@ -9,10 +9,9 @@ import guru.springframework.services.interfaces.UnitOfMeasureService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import reactor.core.publisher.Mono;
 
@@ -24,6 +23,15 @@ public class IngredientController {
     private final RecipeService recipeService;
     private final IngredientService ingredientService;
     private final UnitOfMeasureService unitOfMeasureService;
+
+    // autowire databinder for validation
+    private WebDataBinder webDataBinder;
+
+    // currently not in use, using different validation logic
+    @InitBinder("ingredient")
+    public void initBinder(WebDataBinder webDataBinder) {
+        this.webDataBinder = webDataBinder;
+    }
 
     public IngredientController(
             RecipeService recipeService,
@@ -64,18 +72,18 @@ public class IngredientController {
             log.error("Error recipe command is null");
             throw new IllegalStateException("recipe command is null");
         }
-        // need to return back parent recipe id for hidden form property
-        IngredientCommand ingredientCommand = new IngredientCommand();
-        ingredientCommand.setRecipeId(recipeId);
-        model.addAttribute("ingredient", ingredientCommand);
-        // init unit of measure
-        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
-        // nothing happens with the reactive service unitOfMeasureService until the
-        // .block() is called
-        model.addAttribute("uomList",
-                unitOfMeasureService.listAllUoms().collectList().block());
-        return "recipe/ingredient/ingredientform";
+        Mono<IngredientCommand> ingredient = recipeService.findCommandById(recipeId)
+                .map(recipeCommandObj -> {
+                    IngredientCommand ingredientCommandObj = new IngredientCommand();
+                    // need to return back parent recipe id for hidden form property
+                    ingredientCommandObj.setRecipeId(recipeCommandObj.getId());
+                    ingredientCommandObj.setUnitOfMeasure(new UnitOfMeasureCommand());
+                    return ingredientCommandObj;
+                });
+        model.addAttribute("ingredient", ingredient);
 
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+        return "recipe/ingredient/ingredientform";
     }
 
 
@@ -85,25 +93,40 @@ public class IngredientController {
         model.addAttribute("ingredient",
                 ingredientService.findByRecipeIdAndIngredientId(recipeId,
                         id));
-        // nothing happens with the reactive service unitOfMeasureService until the
-        // .block() is called
-        model.addAttribute("uomList",  unitOfMeasureService.listAllUoms());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
         return "recipe/ingredient/ingredientform";
     }
 
     @PostMapping(value = "/recipe/{recipeId}/ingredient")
-    public Mono<String> saveOrUpdate(@Valid @ModelAttribute("ingredient") Mono<IngredientCommand> ingredientCommand,
-                                     @PathVariable String recipeId, Model model) {
+    public Mono<String> saveOrUpdate(
+            @Valid @ModelAttribute("ingredient") Mono<IngredientCommand> ingredientCommand,
+            @PathVariable String recipeId, Model model) {
+        webDataBinder.validate();
+        BindingResult bindingResult = webDataBinder.getBindingResult();
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.debug(objectError.toString());
+            });
+
+            return Mono.just("recipe/ingredient/ingredientform");
+        }
         return ingredientCommand.doOnNext(cmd -> cmd.setRecipeId(recipeId))
                 .flatMap(ingredientService::saveIngredientCommand)
-                .doOnNext(sc -> log.debug("saved recipe id:{} and ingredient id:{}", sc.getRecipeId(),
+                .doOnNext(sc -> log.debug("saved recipe id:{} and ingredient id:{}",
+                        sc.getRecipeId(),
                         sc.getId()))
-                .map(sc -> "redirect:/recipe/" + sc.getRecipeId() + "/ingredient/" + sc.getId() + "/show")
+                .map(sc -> "redirect:/recipe/" + sc.getRecipeId() + "/ingredient/" +
+                        sc.getId() + "/show")
                 .onErrorResume(WebExchangeBindException.class, thr -> {
-                    ((IngredientCommand)model.getAttribute("ingredient")).setRecipeId(recipeId);
+                    ((IngredientCommand) model.getAttribute("ingredient"))
+                            .setRecipeId(recipeId);
                     return Mono.just("recipe/ingredient/ingredientform");
                 })
-                .doOnError(thr -> log.error("Error saving ingredient for recipe {}", recipeId));
+                .doOnError(thr -> log
+                        .error("Error saving ingredient for recipe {}", recipeId));
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/{id}/delete")
